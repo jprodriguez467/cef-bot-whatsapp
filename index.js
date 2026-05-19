@@ -2,7 +2,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 const axios = require('axios');
 const admin = require('firebase-admin');
-const serviceAccount = require('./cef-tel-primario-firebase-adminsdk-fbsvc-1c70a0236f.json');
+const serviceAccount = JSON.parse(process.env.FIREBASE_CREDENTIALS);
 
 dotenv.config();
 
