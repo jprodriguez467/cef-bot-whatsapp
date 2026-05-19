@@ -1,2 +1,4 @@
 node_modules/
 .env
+.vercel
+cef-tel-primario-firebase-adminsdk-fbsvc-1c70a0236f.json
