@@ -69,23 +69,36 @@ app.get('/webhook', (req, res) => {
 });
 
 app.post('/webhook', async (req, res) => {
-  res.sendStatus(200);
   const body = req.body;
-  if (body.object !== 'whatsapp_business_account') return;
+
+  if (body.object !== 'whatsapp_business_account') {
+    res.sendStatus(200);
+    return;
+  }
 
   const entry = body.entry?.[0]?.changes?.[0]?.value;
   const mensaje = entry?.messages?.[0];
-  if (!mensaje || mensaje.type !== 'text') return;
+
+  if (!mensaje || mensaje.type !== 'text') {
+    res.sendStatus(200);
+    return;
+  }
 
   const telefono = mensaje.from;
   const texto = mensaje.text.body.trim();
   const esDNI = /^\d{7,8}$/.test(texto);
 
-  if (esDNI) {
-    await consultarCuotas(texto, telefono);
-  } else {
-    await enviarMensaje(telefono, '👋 Hola! Soy el bot de cuotas del CEF San Francisco.\n\nEnviá el *DNI del alumno* para consultar el estado de sus cuotas.');
+  try {
+    if (esDNI) {
+      await consultarCuotas(texto, telefono);
+    } else {
+      await enviarMensaje(telefono, '👋 Hola! Soy el bot de cuotas del CEF San Francisco.\n\nEnviá el *DNI del alumno* para consultar el estado de sus cuotas.');
+    }
+  } catch (e) {
+    console.error('Error procesando mensaje:', e.message);
   }
+
+  res.sendStatus(200);
 });
 
 const PORT = process.env.PORT || 3000;
