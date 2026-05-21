@@ -17,6 +17,7 @@ app.use(express.json());
 const VERIFY_TOKEN = process.env.VERIFY_TOKEN || 'cef_token_2025';
 const WHATSAPP_TOKEN = process.env.WHATSAPP_TOKEN;
 const PHONE_NUMBER_ID = process.env.PHONE_NUMBER_ID;
+const MI_NUMERO = '5493425459653';
 
 async function enviarMensaje(telefono, texto) {
   await axios.post(`https://graph.facebook.com/v18.0/${PHONE_NUMBER_ID}/messages`, {
@@ -55,6 +56,13 @@ async function consultarCuotas(dni, telefono) {
   }
 
   await enviarMensaje(telefono, respuesta);
+
+  // Notificación a Juan Pablo
+  try {
+    await enviarMensaje(MI_NUMERO, `📬 *Consulta recibida*\nPadre: +${telefono}\nAlumno: ${nombre}\nGrado: ${grado} - ${turno}`);
+  } catch (e) {
+    console.error('Error enviando notificación:', e.message);
+  }
 }
 
 app.get('/webhook', (req, res) => {
