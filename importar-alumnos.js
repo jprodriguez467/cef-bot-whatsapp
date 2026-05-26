@@ -1,8 +1,7 @@
-require('dotenv').config();
 const admin = require('firebase-admin');
 const XLSX = require('xlsx');
+const serviceAccount = require('./cef-tel-primario-firebase-adminsdk-fbsvc-1c70a0236f.json');
 
-const serviceAccount = JSON.parse(process.env.FIREBASE_CREDENTIALS);
 admin.initializeApp({ credential: admin.credential.cert(serviceAccount) });
 const db = admin.firestore();
 
@@ -20,8 +19,6 @@ async function importar() {
       nombreCompleto: String(row.nombre || '').trim(),
       grado: String(row.grado || '').trim(),
       turno: String(row.turno || '').trim(),
-      fechaNacimiento: String(row.fechaNacimiento || '').trim(),
-      sexo: String(row.sexo || '').trim(),
     }, { merge: true });
     ok++;
     console.log(`✅ ${ok} - ${row.nombre}`);
