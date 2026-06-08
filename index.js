@@ -44,6 +44,7 @@ async function consultarCuotas(dni, telefono) {
 
   const meses = ['Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre'];
   let respuesta = `📋 *${nombre}*\n${grado} - Turno ${turno}\n\n*Estado de cuotas 2026:*\n`;
+  let hayPendientes = false;
 
   for (const mes of meses) {
     const mesKey = `2026-${String(meses.indexOf(mes) + 3).padStart(2,'0')}`;
@@ -52,7 +53,17 @@ async function consultarCuotas(dni, telefono) {
       respuesta += `✅ ${mes} - Pagado\n`;
     } else {
       respuesta += `⏳ ${mes} - Pendiente $35.000\n`;
+      hayPendientes = true;
     }
+  }
+
+  if (hayPendientes) {
+    respuesta += `\n💳 *Para pagar por transferencia:*\n` +
+      `• Alias: *cef.1001*\n` +
+      `• Titular: Maria Esmeralda Videla\n` +
+      `• Importe: *$35.000* por cuota\n\n` +
+      `📝 Poné el *nombre del alumno* en el concepto de la transferencia.\n` +
+      `📲 Después enviá el *comprobante* por este mismo WhatsApp. ¡Gracias!`;
   }
 
   await enviarMensaje(telefono, respuesta);
