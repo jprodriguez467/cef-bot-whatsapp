@@ -48,7 +48,7 @@ async function consultarCuotas(dni, telefono) {
   for (const mes of meses) {
     const mesKey = `2026-${String(meses.indexOf(mes) + 3).padStart(2,'0')}`;
     const cuotaDoc = await db.collection('cuotas').doc(mesKey).collection('alumnos').doc(dni).get();
-    if (cuotaDoc.exists && cuotaDoc.data().pagado) {
+    if (cuotaDoc.exists && cuotaDoc.data().estado === "pagado") {
       respuesta += `✅ ${mes} - Pagado\n`;
     } else {
       respuesta += `⏳ ${mes} - Pendiente $35.000\n`;

@@ -1,0 +1,10 @@
+# Credenciales de Firebase — el bot las lee desde la variable de entorno
+# FIREBASE_CREDENTIALS en Vercel, NO desde este archivo. No subir el secreto.
+cef-tel-primario-firebase-adminsdk-fbsvc-1c70a0236f.json
+
+# Variables locales (claves) — en Vercel ya están cargadas como env vars
+.env
+
+# Planillas de Excel: solo se usan en scripts locales, el bot no las necesita
+*.xlsx
+~$*.xlsx
